@@ -8,6 +8,13 @@ A web app to optimize and lint SQL queries using [sqlglot](https://github.com/to
 - Lint SQL queries with sqlfmt
 - Customizable optimization rules
 
+## Build & Run
+
+1. poetry install
+2. poetry run streamlit run src/sql_optimizer_app/app.py
+
+
+
 ## Usage
 1. Enter your SQL query in the left editor.
 2. Select the optimization rules you want to apply.

@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from streamlit_ace import st_ace
 
-from util import RULE_MAPPING, SAMPLE_QUERY, apply_optimizations, format_sql_with_sqlfmt
+from util import DIALECTS,RULE_MAPPING, SAMPLE_QUERY, apply_optimizations, format_sql_with_sqlfmt
 
 st.set_page_config(layout="wide")
 
@@ -50,7 +50,7 @@ if "state" not in st.session_state:
 def _generate_editor_widget(value: str, **kwargs) -> str:
     return st_ace(
         value=value,
-        height=os.getenv("EDITOR_HEIGHT", 400),
+        height=os.getenv("EDITOR_HEIGHT", 500),
         theme="monokai",
         language="sql",
         font_size=os.getenv("FONT_SIZE", 14),
@@ -60,14 +60,24 @@ def _generate_editor_widget(value: str, **kwargs) -> str:
     )
 
 
+
+
 with left:
+    source_dialect = st.selectbox("Source Dialect", DIALECTS)
     sql_input = _generate_editor_widget(SAMPLE_QUERY)
+
+# Add output editor
+with right:
+    target_dialect = st.selectbox("Target Dialect", DIALECTS)
+    _generate_editor_widget(
+        st.session_state.new_query, readonly=True, key=f"ace-{st.session_state.state}"
+    )
 
 # Optimize and lint query
 if optimize_button:
     try:
         rules = [RULE_MAPPING[rule] for rule in selected_rules]
-        new_query = apply_optimizations(sql_input, rules, remove_ctes).sql(pretty=True)
+        new_query = apply_optimizations(sql_input, source_dialect,target_dialect,rules, remove_ctes).sql(pretty=True)
         if format_with_sqlfmt:
             new_query = format_sql_with_sqlfmt(new_query)
         st.session_state.new_query = new_query
@@ -75,16 +85,11 @@ if optimize_button:
     except Exception as e:
         st.error(f"Error: {e}")
 
-# Add output editor
-with right:
-    _generate_editor_widget(
-        st.session_state.new_query, readonly=True, key=f"ace-{st.session_state.state}"
-    )
+
 
 st.markdown(
     f"""
-    <a href="{os.getenv('GITHUB_REPO')}" target="_blank">
-    <img src="{os.getenv('STAR_BADGE_URL')}" alt="Star on GitHub"></a>
+    Based on <https://github.com/jtalmi/sql-optimizer-app/>
     """,
     unsafe_allow_html=True,
 )

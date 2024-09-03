@@ -6,10 +6,11 @@ authors = ["Jonathan Talmi <jtalmi@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8.0,<3.9.7 || >3.9.7,<4.0"
-sqlglot = "11.3.7"
+sqlglot = "25.18.0"
 streamlit = "^1.20.0"
-shandy-sqlfmt = "^0.17.0"
+shandy-sqlfmt = "0.23.2"
 streamlit-ace = "^0.1.1"
+platformdirs = "^4.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest-snapshot = "^0.9.0"
@@ -21,3 +22,10 @@ ipdb = "^0.13.9"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+create = true
+in-project = true
+
+#[tool.poetry.scripts]
+#app = app.py:main
