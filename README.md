@@ -13,6 +13,7 @@ A web app to optimize and lint SQL queries using [sqlglot](https://github.com/to
 1. poetry install
 2. poetry run streamlit run src/sql_optimizer_app/app.py
 
+![Screenshot](img/screenshot.png)
 
 
 ## Usage
