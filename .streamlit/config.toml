@@ -1,0 +1,13 @@
+[theme]
+base = "dark"
+
+[client]
+# Don't send stack traces to the browser; only the exception type is shown.
+showErrorDetails = "type"
+
+[server]
+enableXsrfProtection = true
+enableCORS = true
+
+[browser]
+gatherUsageStats = false
