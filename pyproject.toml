@@ -18,6 +18,10 @@ sql-optimizer = "sql_optimizer_app.cli:main"
 [dependency-groups]
 dev = ["pytest>=9.1", "ruff>=0.17"]
 
+[tool.uv]
+# Supply-chain cooldown: ignore releases younger than a week.
+exclude-newer = "7 days"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
